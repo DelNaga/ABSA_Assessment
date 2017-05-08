@@ -2,7 +2,7 @@
 
 ABSA_Assessment.controller("ClientController", ClientController).factory("ClientService", function($http){
 
-});
+});  
 
 var configFunction = function ($routeProvider) {
     $routeProvider.
