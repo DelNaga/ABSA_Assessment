@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using ABSA_Assessment.Context;
 using ABSA_Assessment.Models;
+using System.Net;
 
 namespace ABSA_Assessment.Controllers
 {
@@ -25,19 +26,30 @@ namespace ABSA_Assessment.Controllers
 
         public ActionResult GetClient()
         {
-            return  Json(mDataContext.Clients.Select(x=>new {x.ClientId, x.FirstName, x.Surname, x.IdentificationId, x.IdNumber, x.DateOfBirth }).FirstOrDefault(),JsonRequestBehavior.AllowGet);
+            return Json(mDataContext.Clients.Select(x => new { x.ClientId, x.FirstName, x.Surname, x.IdentificationId, x.IdNumber, x.DateOfBirth }).FirstOrDefault(), JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult GetIdentificationTypes()
         {
-            return Json(mDataContext.IdentificationTypes.Select(x => new { x.IdentificationId, x.IdentificationDescription}).ToList(), JsonRequestBehavior.AllowGet);
+            return Json(mDataContext.IdentificationTypes.Select(x => new { x.IdentificationId, x.IdentificationDescription }).ToList(), JsonRequestBehavior.AllowGet);
         }
 
-        /*public ActionResult SetClient(Client input)
+        public ActionResult SetClient(Client updatedClient)
         {
-            mDataContext.Clients.Add(input);
-            mDataContext.SaveChanges();
-            return Json(mDataContext.Clients.FirstOrDefault());
-        }*/
+            var originalClient = mDataContext.Clients.Find(updatedClient.ClientId);
+
+            if (originalClient != null)
+            {
+                originalClient.FirstName = updatedClient.FirstName;
+                originalClient.Surname = updatedClient.Surname;
+                originalClient.IdentificationId = updatedClient.IdentificationId;
+                originalClient.IdentificationType = mDataContext.IdentificationTypes.Find(updatedClient.IdentificationId);
+                originalClient.IdNumber = updatedClient.IdNumber;
+                originalClient.DateOfBirth = updatedClient.DateOfBirth;
+                mDataContext.SaveChanges();
+            }
+
+            return Json(updatedClient);
+        }
     }
 }

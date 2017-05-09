@@ -7,28 +7,46 @@
 
     <h1></h1>
     <div ng-controller="ClientController as $ctrl">
-        <table>
-            <tr>
-                <td>First Name:</td>
-                <td><input type="text" ng-model="$ctrl.client.FirstName"></td>
-            </tr>
-            <tr>
-                <td>Surname:</td>
-                <td><input type="text" ng-model="$ctrl.client.Surname"></td>
-            </tr>
-            <tr>
-                <td>ID Type:</td>
-                <td><select ng-model="$ctrl.client.IdentificationId" ng-options="identification.IdentificationDescription for identification in $ctrl.identifications track by identification.IdentificationId"></select></td>
-            </tr>
-            <tr>
-                <td>ID/Passport Number:</td>
-                <td><input type="text" ng-model="$ctrl.client.IdNumber"></td>
-            </tr>
-            <tr>
-                <td>Date Of Birth:</td>
-                <td><input type="text" ng-model="$ctrl.client.DateOfBirth | date:'dd/MMyyyy'"></td>
-            </tr>
-        </table>
+        <form ng-submit="$ctrl.postClient()">
+            <table>
+                <tr>
+                    <td>First Name:</td>
+                    <td><input type="text" ng-model="$ctrl.client.FirstName"></td>
+                </tr>
+                <tr>
+                    <td>Surname:</td>
+                    <td><input type="text" ng-model="$ctrl.client.Surname"></td>
+                </tr>
+                @*<tr>
+                        <td>ID Type:</td>
+                        <td><select ng-model="$ctrl.client.IdentificationId" ng-options="identification.IdentificationDescription for identification in $ctrl.identifications track by identification.IdentificationId"></select></td>
+                    </tr>*@
+                <tr>
+                    <td>ID Type:</td>
+                    <td>
+                        <select ng-model="$ctrl.client.IdentificationId">
+                            <option ng-selected="$ctrl.client.IdentificationId == $ctrl.identifications.IdentificationId"
+                                    ng-repeat="item in $ctrl.identifications"
+                                    ng-value="item.IdentificationId">
+                                {{item.IdentificationDescription}}
+                            </option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>ID/Passport Number:</td>
+                    <td><input type="text" ng-model="$ctrl.client.IdNumber"></td>
+                </tr>
+                <tr>
+                    <td>Date Of Birth:</td>
+                    <td><input type="text" ng-model="$ctrl.client.DateOfBirth | date:'dd/MM/yyyy'"></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><button type="submit">Save Client</button></td>
+                </tr>
+            </table>
+        </form>
     </div>
     @Scripts.Render("~/bundles/angular")
     @Scripts.Render("~/bundles/ABSA_Assessment")
