@@ -1,11 +1,35 @@
 ﻿<!DOCTYPE html>
-<html ng-app="ABSA_Assessment" ng-controller="ClientController">
+<html>
 <head>
-    <title ng-bind="models.apptitle"></title>
+    <title>@ViewBag.Title</title>
 </head>
-<body>
-    <h1>{{models.apptitle}}</h1>
+<body ng-app="ABSA_Assessment" ng-controller="ClientController">
 
+    <h1></h1>
+    <div ng-controller="ClientController as $ctrl">
+        <table>
+            <tr>
+                <td>First Name:</td>
+                <td><input type="text" ng-model="$ctrl.client.FirstName"></td>
+            </tr>
+            <tr>
+                <td>Surname:</td>
+                <td><input type="text" ng-model="$ctrl.client.Surname"></td>
+            </tr>
+            <tr>
+                <td>ID Type:</td>
+                <td><select ng-model="$ctrl.client.IdentificationId" ng-options="identification.IdentificationDescription for identification in $ctrl.identifications track by identification.IdentificationId"></select></td>
+            </tr>
+            <tr>
+                <td>ID/Passport Number:</td>
+                <td><input type="text" ng-model="$ctrl.client.IdNumber"></td>
+            </tr>
+            <tr>
+                <td>Date Of Birth:</td>
+                <td><input type="text" ng-model="$ctrl.client.DateOfBirth | date:'dd/MMyyyy'"></td>
+            </tr>
+        </table>
+    </div>
     @Scripts.Render("~/bundles/angular")
     @Scripts.Render("~/bundles/ABSA_Assessment")
 </body>

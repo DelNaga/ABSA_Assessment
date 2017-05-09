@@ -19,20 +19,25 @@ namespace ABSA_Assessment.Controllers
 
         public ActionResult Index()
         {
+            ViewBag.Title = "View/Edit Client";
             return View();
         }
 
         public ActionResult GetClient()
         {
-            return  Json(mDataContext.Clients.Select(x=>new {x.FirstName,x.Surname }).FirstOrDefault(),JsonRequestBehavior.AllowGet);
+            return  Json(mDataContext.Clients.Select(x=>new {x.ClientId, x.FirstName, x.Surname, x.IdentificationId, x.IdNumber, x.DateOfBirth }).FirstOrDefault(),JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult GetIdentificationTypes()
+        {
+            return Json(mDataContext.IdentificationTypes.Select(x => new { x.IdentificationId, x.IdentificationDescription}).ToList(), JsonRequestBehavior.AllowGet);
+        }
 
-        public ActionResult SetClient(Client input)
+        /*public ActionResult SetClient(Client input)
         {
             mDataContext.Clients.Add(input);
             mDataContext.SaveChanges();
             return Json(mDataContext.Clients.FirstOrDefault());
-        }
+        }*/
     }
 }
